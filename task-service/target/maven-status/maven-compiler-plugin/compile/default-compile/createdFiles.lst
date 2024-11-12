@@ -1,0 +1,4 @@
+com/example/taskservice/entity/Task.class
+com/example/taskservice/service/TaskService.class
+com/example/taskservice/repository/TaskRepository.class
+com/example/taskservice/TaskServiceApplication.class
