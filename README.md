@@ -1,7 +1,3 @@
-Aqui está a versão adaptada para o novo tema: **Gerenciamento de Tarefas com Microsserviços**.
-
----
-
 # 📝 Aplicativo de Gerenciamento de Tarefas com Microsserviços
 
 <sub>*Uma solução simples e escalável para organizar tarefas, com autenticação de usuários e lembretes automáticos.*</sub>
