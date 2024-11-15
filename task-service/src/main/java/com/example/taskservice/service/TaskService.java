@@ -33,15 +33,30 @@ public class TaskService {
 
   @Scheduled(fixedRate = 60000)
   public void checkAndSendNotifications() {
-    List<Task> tasksToNotify = taskRepository.findByNotifiedFalseAndNotificationTimeBefore(LocalDateTime.now());
-    for (Task task : tasksToNotify) {
-      // Enviar notificação para o Notification-Service
-      String message = "Lembrete: " + task.getDescription();
-      restTemplate.postForObject(notificationServiceUrl, message, String.class);
-      // Marcar a tarefa como notificada
-      task.setNotified(true);
-      taskRepository.save(task);
-    }
+    LocalDateTime now = LocalDateTime.now();
 
+    List<Task> tasksToNotify = taskRepository.findByNotifiedFalseAndNotificationTimeAfter(now.minusMinutes(10));
+    for (Task task : tasksToNotify) {
+      long minutesUntilTask = java.time.Duration.between(now, task.getNotificationTime()).toMinutes();
+
+      if (minutesUntilTask <= 10 && !task.isNotified10MinutesBefore()) {
+        sendNotification(task, "Lembrete: Faltam 10 minutos para sua tarefa!");
+        task.setNotified10MinutesBefore(true);
+      }
+      if (minutesUntilTask <= 5 && !task.isNotified5MinutesBefore()) {
+        sendNotification(task, "Lembrete: Faltam 5 minutos para sua tarefa!");
+        task.setNotified5MinutesBefore(true);
+      }
+      if (minutesUntilTask <= 0 && !task.isNotifiedOnTime()) {
+        sendNotification(task, "Lembrete: Sua tarefa está no horário!");
+        task.setNotifiedOnTime(true);
+        task.setNotified(true); // Marca a tarefa como completamente notificada
+      }
+      taskRepository.save(task); // Salva as atualizações de notificação
+    }
+  }
+
+  private void sendNotification(Task task, String message) {
+    restTemplate.postForObject(notificationServiceUrl, message, String.class);
   }
 }

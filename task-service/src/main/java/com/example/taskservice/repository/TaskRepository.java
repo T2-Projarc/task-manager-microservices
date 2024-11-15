@@ -8,5 +8,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
-  List<Task> findByNotifiedFalseAndNotificationTimeBefore(LocalDateTime now);
+  List<Task> findByNotifiedFalseAndNotificationTimeAfter(LocalDateTime time);
 }

@@ -1,4 +1,4 @@
-package com.example.notificationservice;
+package com.example.notificationservice.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -15,6 +15,9 @@ public class Task {
   private String description;
   private LocalDateTime notificationTime;
   private boolean notified = false;
+  private boolean notified10MinutesBefore;
+  private boolean notified5MinutesBefore;
+  private boolean notifiedOnTime;
 
   // Getters and setters
   public Long getId() {
@@ -47,5 +50,29 @@ public class Task {
 
   public void setNotified(boolean notified) {
     this.notified = notified;
+  }
+
+  public boolean isNotified10MinutesBefore() {
+    return notified10MinutesBefore;
+  }
+
+  public void setNotified10MinutesBefore(boolean notified10MinutesBefore) {
+    this.notified10MinutesBefore = notified10MinutesBefore;
+  }
+
+  public boolean isNotified5MinutesBefore() {
+    return notified5MinutesBefore;
+  }
+
+  public void setNotified5MinutesBefore(boolean notified5MinutesBefore) {
+    this.notified5MinutesBefore = notified5MinutesBefore;
+  }
+
+  public boolean isNotifiedOnTime() {
+    return notifiedOnTime;
+  }
+
+  public void setNotifiedOnTime(boolean notifiedOnTime) {
+    this.notifiedOnTime = notifiedOnTime;
   }
 }
