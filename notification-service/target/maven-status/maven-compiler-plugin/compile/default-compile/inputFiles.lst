@@ -1,5 +1,7 @@
-/Users/mauriciokrziminski/Code/PUCRS/PROJARC/task-manager-microservices/notification-service/src/main/java/com/example/notificationservice/Notification.java
-/Users/mauriciokrziminski/Code/PUCRS/PROJARC/task-manager-microservices/notification-service/src/main/java/com/example/notificationservice/NotificationServiceApplication.java
-/Users/mauriciokrziminski/Code/PUCRS/PROJARC/task-manager-microservices/notification-service/src/main/java/com/example/notificationservice/controller/NotificationController.java
-/Users/mauriciokrziminski/Code/PUCRS/PROJARC/task-manager-microservices/notification-service/src/main/java/com/example/notificationservice/repository/NotificationRepository.java
-/Users/mauriciokrziminski/Code/PUCRS/PROJARC/task-manager-microservices/notification-service/src/main/java/com/example/notificationservice/service/NotificationService.java
+C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\notification-service\src\main\java\com\example\notificationservice\config\OpenApiConfig.java
+C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\notification-service\src\main\java\com\example\notificationservice\config\webConfig.java
+C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\notification-service\src\main\java\com\example\notificationservice\controller\NotificationController.java
+C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\notification-service\src\main\java\com\example\notificationservice\entity\Notification.java
+C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\notification-service\src\main\java\com\example\notificationservice\NotificationServiceApplication.java
+C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\notification-service\src\main\java\com\example\notificationservice\repository\NotificationRepository.java
+C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\notification-service\src\main\java\com\example\notificationservice\service\NotificationService.java
