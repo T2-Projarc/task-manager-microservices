@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.*;
 import com.example.notificationservice.entity.Notification;
 import com.example.notificationservice.service.NotificationService;
 import jakarta.servlet.http.HttpServletRequest;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/notifications")
+@Tag(name = "Notification API", description = "Endpoints para gerenciar notificações")
 public class NotificationController {
 
   @Autowired
