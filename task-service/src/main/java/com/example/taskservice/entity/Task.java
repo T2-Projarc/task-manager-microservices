@@ -4,7 +4,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
-
 import jakarta.persistence.Entity;
 
 @Entity
@@ -19,7 +18,18 @@ public class Task {
   private boolean notified5MinutesBefore;
   private boolean notifiedOnTime;
 
+  private String username; // Novo campo para associar ao usuário
+
   // Getters and setters
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+  
   public Long getId() {
     return id;
   }

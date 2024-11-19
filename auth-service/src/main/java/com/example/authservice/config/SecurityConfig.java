@@ -1,42 +1,62 @@
 package com.example.authservice.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.example.authservice.service.UserDetailsServiceImpl;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService; // Use your custom implementation
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Desabilita CSRF para simplificação
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll() // Permite acesso às rotas de autenticação
-                .requestMatchers("/actuator/**").permitAll() // Permite acesso às rotas do Actuator
-                .requestMatchers("/").permitAll() // Permite acesso à raiz
-                .requestMatchers("/h2-console/**").permitAll() // Permite acesso ao console H2
-                .requestMatchers("/swagger-ui/**").permitAll() // Permite acesso ao Swagger UI
-                .requestMatchers("/v3/api-docs/**").permitAll() // Permite acesso à documentação da API
-                .anyRequest().authenticated() // Protege todas as outras rotas
-            )
-            .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) // Necessário para H2 console
-            .httpBasic(httpBasic -> httpBasic.disable()); // Desabilita autenticação HTTP básica
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .anyRequest().authenticated())
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
+                .httpBasic(httpBasic -> httpBasic.disable())
+                .authenticationProvider(authenticationProvider()); // Add this line
 
         return http.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .authenticationProvider(authenticationProvider())
+                .build();
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
     }
 
     @Bean

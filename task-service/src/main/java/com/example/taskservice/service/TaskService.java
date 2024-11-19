@@ -4,12 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import com.example.taskservice.entity.Task;
 import com.example.taskservice.repository.TaskRepository;
-
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.security.Key;
+import io.jsonwebtoken.io.Decoders;
 
 @Service
 public class TaskService {
@@ -20,11 +24,35 @@ public class TaskService {
   private final RestTemplate restTemplate = new RestTemplate();
   private final String notificationServiceUrl = "http://localhost:8082/notifications/internal";
 
-  public Task createTask(String description, LocalDateTime notificationTime) {
+  // Sua chave secreta (deve ser a mesma usada no auth-service)
+  private static final String SECRET_KEY = "wK8gH3Dh0JUZK+GkUP0rP+lPSYwSLJJxQlX6DYwIurY=";
+  private final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
+
+  public Task createTask(String description, LocalDateTime notificationTime, String username) {
     Task task = new Task();
     task.setDescription(description);
     task.setNotificationTime(notificationTime);
+    task.setUsername(username);
     return taskRepository.save(task);
+  }
+
+  public List<Task> getTasksByUsername(String username) {
+    return taskRepository.findByUsername(username);
+  }
+
+  public String extractUsernameFromToken(HttpServletRequest request) {
+    String header = request.getHeader("Authorization");
+    if (header != null && header.startsWith("Bearer ")) {
+      String token = header.substring(7);
+      Claims claims = Jwts.parserBuilder()
+          .setSigningKey(key)
+          .build()
+          .parseClaimsJws(token)
+          .getBody();
+      return claims.getSubject();
+    } else {
+      throw new RuntimeException("Token JWT não encontrado ou inválido");
+    }
   }
 
   public List<Task> getAllTasks() {
@@ -57,6 +85,45 @@ public class TaskService {
   }
 
   private void sendNotification(Task task, String message) {
-    restTemplate.postForObject(notificationServiceUrl, message, String.class);
+    NotificationRequest notificationRequest = new NotificationRequest();
+    notificationRequest.setMessage(message);
+    notificationRequest.setType("INFO");
+    notificationRequest.setUsername(task.getUsername());
+
+    restTemplate.postForObject(notificationServiceUrl, notificationRequest, String.class);
+  }
+
+  // Classe auxiliar para enviar a notificação
+  class NotificationRequest {
+    private String message;
+    private String type;
+    private String username;
+
+    // Getters e Setters
+    // ...
+
+    public String getMessage() {
+      return message;
+    }
+
+    public void setMessage(String message) {
+      this.message = message;
+    }
+
+    public String getType() {
+      return type;
+    }
+
+    public void setType(String type) {
+      this.type = type;
+    }
+
+    public String getUsername() {
+      return username;
+    }
+
+    public void setUsername(String username) {
+      this.username = username;
+    }
   }
 }

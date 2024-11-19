@@ -32,10 +32,11 @@ public class AuthController {
     public String register(@RequestBody RegisterRequest request) {
         User user = new User();
         user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(passwordEncoder.encode(request.getPassword())); // Password is encoded here
         userRepository.save(user);
         return "User registered successfully";
     }
+    
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
@@ -46,7 +47,7 @@ public class AuthController {
             String token = jwtUtil.generateToken(request.getUsername());
             return new AuthResponse(token);
         } catch (Exception e) {
-            e.printStackTrace(); // log para identificar problema de login
+            e.printStackTrace(); // This should log the exception details
             throw new RuntimeException("Login failed: " + e.getMessage());
         }
     }

@@ -1,46 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task and Notification Manager</title>
+  <title>Gerenciador de Tarefas e Notificações</title>
   <style>
-    /* Reset e estilo básico */
+    /* Estilos Gerais */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body {
-      background-color: #f4f4f9;
+      background-color: #eef2f7;
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 100vh;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 20px;
     }
 
     .container {
-      max-width: 700px;
+      max-width: 800px;
       width: 100%;
-      padding: 20px;
       background-color: #ffffff;
       border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
     }
 
-    h1 {
-      font-size: 24px;
-      color: #333;
-      margin-bottom: 20px;
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
       text-align: center;
     }
 
+    header h1 {
+      font-size: 28px;
+    }
+
+    .content {
+      padding: 20px;
+    }
+
     h2 {
-      font-size: 20px;
-      color: #4CAF50;
-      margin-top: 20px;
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 15px;
     }
 
     .input-group {
@@ -55,16 +63,20 @@
       margin-bottom: 5px;
     }
 
-    input[type="text"] {
+    input[type="text"],
+    input[type="password"],
+    input[type="datetime-local"] {
       padding: 10px;
       font-size: 14px;
-      border: 1px solid #ddd;
+      border: 1px solid #ccc;
       border-radius: 4px;
       outline: none;
       transition: border-color 0.3s;
     }
 
-    input[type="text"]:focus {
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="datetime-local"]:focus {
       border-color: #4CAF50;
     }
 
@@ -103,7 +115,6 @@
       margin-bottom: 5px;
     }
 
-    /* Botão para recarregar listas */
     .refresh-button {
       background-color: #007BFF;
       color: white;
@@ -115,50 +126,247 @@
     .refresh-button:hover {
       background-color: #0069d9;
     }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Estilo para botões de ação */
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .action-buttons button {
+      flex: 1;
+    }
+
+    /* Estilos para mensagens de erro e sucesso */
+    .message {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .message.success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Task and Notification Manager</h1>
-
-    <!-- Section for Creating Tasks -->
-    <div class="section">
-      <h2>Create Task</h2>
-      <div class="input-group">
-        <label for="description">Description:</label>
-        <input type="text" id="description" required>
+    <header>
+      <h1>Gerenciador de Tarefas e Notificações</h1>
+    </header>
+    <div class="content">
+      <!-- Seção de Registro -->
+      <div id="registrationSection" class="section">
+        <h2>Registrar</h2>
+        <div class="input-group">
+          <label for="registerUsername">Nome de usuário:</label>
+          <input type="text" id="registerUsername" required>
+        </div>
+        <div class="input-group">
+          <label for="registerPassword">Senha:</label>
+          <input type="password" id="registerPassword" required>
+        </div>
+        <button onclick="register()">Registrar</button>
+        <p>Já tem uma conta? <a href="#" onclick="toggleSections()">Faça login aqui</a>.</p>
       </div>
-      <div class="input-group">
-        <label for="notificationTime">Notification Time (YYYY-MM-DDTHH:MM:SS):</label>
-        <input type="text" id="notificationTime" required>
+
+      <!-- Seção de Login -->
+      <div id="loginSection" class="section hidden">
+        <h2>Login</h2>
+        <div class="input-group">
+          <label for="loginUsername">Nome de usuário:</label>
+          <input type="text" id="loginUsername" required>
+        </div>
+        <div class="input-group">
+          <label for="loginPassword">Senha:</label>
+          <input type="password" id="loginPassword" required>
+        </div>
+        <button onclick="login()">Login</button>
+        <p>Não tem uma conta? <a href="#" onclick="toggleSections()">Registre-se aqui</a>.</p>
       </div>
-      <button onclick="createTask()">Create Task</button>
-    </div>
 
-    <!-- Section for Viewing Tasks -->
-    <div class="section">
-      <h2>All Tasks</h2>
-      <button class="refresh-button" onclick="getAllTasks()">Refresh Task List</button>
-      <div id="tasksList"></div>
-    </div>
+      <!-- Seção para Usuário Logado -->
+      <div id="loggedInSection" class="section hidden">
+        <div class="action-buttons">
+          <button onclick="logout()">Logout</button>
+        </div>
+        <h2>Bem-vindo, <span id="usernameDisplay"></span>!</h2>
 
-    <!-- Section for Viewing Notifications -->
-    <div class="section">
-      <h2>Notifications</h2>
-      <button class="refresh-button" onclick="getNotifications()">Refresh Notifications</button>
-      <div id="notificationsList"></div>
+        <!-- Seção de Criação de Tarefas -->
+        <div class="section">
+          <h2>Criar Tarefa</h2>
+          <div class="input-group">
+            <label for="description">Descrição:</label>
+            <input type="text" id="description" required>
+          </div>
+          <div class="input-group">
+            <label for="notificationTime">Hora da Notificação:</label>
+            <input type="datetime-local" id="notificationTime" required>
+          </div>
+          <button onclick="createTask()">Criar Tarefa</button>
+        </div>
+
+        <!-- Seção para Visualizar Tarefas -->
+        <div class="section">
+          <h2>Minhas Tarefas</h2>
+          <button class="refresh-button" onclick="getAllTasks()">Atualizar Lista de Tarefas</button>
+          <div id="tasksList"></div>
+        </div>
+
+        <!-- Seção para Visualizar Notificações -->
+        <div class="section">
+          <h2>Notificações</h2>
+          <button class="refresh-button" onclick="getNotifications()">Atualizar Notificações</button>
+          <div id="notificationsList"></div>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
-    // Base URLs for the services
+    // URLs base dos serviços
     const taskServiceUrl = "http://localhost:8081/tasks";
     const notificationServiceUrl = "http://localhost:8082/notifications";
+    const authServiceUrl = "http://localhost:8080/auth";
 
-    // Function to create a new task
+    let token = null;
+
+    // Função para registrar um novo usuário
+    async function register() {
+      const username = document.getElementById("registerUsername").value;
+      const password = document.getElementById("registerPassword").value;
+
+      const registerData = {
+        username,
+        password
+      };
+
+      try {
+        const response = await fetch(`${authServiceUrl}/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(registerData)
+        });
+
+        if (response.ok) {
+          showMessage("Registro bem-sucedido! Por favor, faça login.", "success");
+          // Limpar o formulário de registro
+          document.getElementById("registerUsername").value = "";
+          document.getElementById("registerPassword").value = "";
+          // Alternar para a seção de login
+          toggleSections();
+        } else {
+          const errorText = await response.text();
+          showMessage("Falha no registro: " + errorText, "error");
+        }
+      } catch (error) {
+        console.error("Erro durante o registro:", error);
+        showMessage("Ocorreu um erro durante o registro.", "error");
+      }
+    }
+
+    // Função para login
+    async function login() {
+      const username = document.getElementById("loginUsername").value;
+      const password = document.getElementById("loginPassword").value;
+
+      const loginData = {
+        username,
+        password
+      };
+
+      try {
+        const response = await fetch(`${authServiceUrl}/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(loginData)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          token = data.token;
+          // Armazenar token e nome de usuário no localStorage
+          localStorage.setItem("token", token);
+          localStorage.setItem("username", username);
+
+          // Atualizar interface
+          document.getElementById("usernameDisplay").innerText = username;
+          showLoggedInSection();
+
+          // Limpar o formulário de login
+          document.getElementById("loginUsername").value = "";
+          document.getElementById("loginPassword").value = "";
+
+          // Buscar dados iniciais
+          getAllTasks();
+          getNotifications();
+        } else {
+          const errorText = await response.text();
+          showMessage("Falha no login: " + errorText, "error");
+        }
+      } catch (error) {
+        console.error("Erro durante o login:", error);
+        showMessage("Ocorreu um erro durante o login.", "error");
+      }
+    }
+
+    // Função para logout
+    function logout() {
+      token = null;
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      showLoggedOutSection();
+    }
+
+    // Função para alternar entre seções de registro e login
+    function toggleSections() {
+      const registrationSection = document.getElementById("registrationSection");
+      const loginSection = document.getElementById("loginSection");
+      registrationSection.classList.toggle("hidden");
+      loginSection.classList.toggle("hidden");
+    }
+
+    // Função para mostrar a interface de usuário logado
+    function showLoggedInSection() {
+      document.getElementById("registrationSection").classList.add("hidden");
+      document.getElementById("loginSection").classList.add("hidden");
+      document.getElementById("loggedInSection").classList.remove("hidden");
+    }
+
+    // Função para mostrar a interface de usuário deslogado
+    function showLoggedOutSection() {
+      document.getElementById("registrationSection").classList.remove("hidden");
+      document.getElementById("loginSection").classList.add("hidden");
+      document.getElementById("loggedInSection").classList.add("hidden");
+    }
+
+    // Função para criar uma nova tarefa
     async function createTask() {
       const description = document.getElementById("description").value;
-      const notificationTime = document.getElementById("notificationTime").value;
+      let notificationTime = document.getElementById("notificationTime").value;
+
+      // Adicionar segundos se não estiverem presentes
+      if (notificationTime.length === 16) {
+        notificationTime += ":00";
+      }
 
       const taskData = {
         description,
@@ -169,76 +377,129 @@
         const response = await fetch(`${taskServiceUrl}/create`, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
           },
           body: JSON.stringify(taskData)
         });
 
         if (response.ok) {
-          alert("Task created successfully!");
-          getAllTasks(); // Refresh the task list
+          showMessage("Tarefa criada com sucesso!", "success");
+          // Limpar os campos após a criação da tarefa
+          document.getElementById("description").value = "";
+          document.getElementById("notificationTime").value = "";
+          getAllTasks(); // Atualizar a lista de tarefas
         } else {
-          alert("Failed to create task.");
+          const errorText = await response.text();
+          showMessage("Falha ao criar tarefa: " + errorText, "error");
         }
       } catch (error) {
-        console.error("Error creating task:", error);
-        alert("An error occurred while creating the task.");
+        console.error("Erro ao criar tarefa:", error);
+        showMessage("Ocorreu um erro ao criar a tarefa.", "error");
       }
     }
 
-    // Function to get all tasks
+    // Função para obter todas as tarefas do usuário autenticado
     async function getAllTasks() {
       try {
-        const response = await fetch(`${taskServiceUrl}/all`);
+        const response = await fetch(`${taskServiceUrl}/all`, {
+          headers: {
+            "Authorization": "Bearer " + token
+          }
+        });
         if (response.ok) {
           const tasks = await response.json();
           const tasksList = document.getElementById("tasksList");
-          tasksList.innerHTML = ""; // Clear the list
+          tasksList.innerHTML = ""; // Limpar a lista
 
-          tasks.forEach(task => {
-            const taskItem = document.createElement("div");
-            taskItem.classList.add("task-item");
-            taskItem.innerHTML = `
-              <strong>Description:</strong> ${task.description} <br>
-              <strong>Notification Time:</strong> ${task.notificationTime} <br>
-              <strong>Notified:</strong> ${task.notified ? "Yes" : "No"}
-            `;
-            tasksList.appendChild(taskItem);
-          });
+          if (tasks.length === 0) {
+            tasksList.innerHTML = "<p>Você ainda não tem tarefas.</p>";
+          } else {
+            tasks.forEach(task => {
+              const taskItem = document.createElement("div");
+              taskItem.classList.add("task-item");
+              taskItem.innerHTML = `
+                <strong>Descrição:</strong> ${task.description} <br>
+                <strong>Hora da Notificação:</strong> ${task.notificationTime.replace("T", " ")} <br>
+                <strong>Notificado:</strong> ${task.notified ? "Sim" : "Não"}
+              `;
+              tasksList.appendChild(taskItem);
+            });
+          }
         } else {
-          alert("Failed to fetch tasks.");
+          const errorText = await response.text();
+          showMessage("Falha ao obter tarefas: " + errorText, "error");
         }
       } catch (error) {
-        console.error("Error fetching tasks:", error);
-        alert("An error occurred while fetching tasks.");
+        console.error("Erro ao obter tarefas:", error);
+        showMessage("Ocorreu um erro ao obter as tarefas.", "error");
       }
     }
 
-    // Function to get all notifications
+    // Função para obter todas as notificações do usuário autenticado
     async function getNotifications() {
       try {
-        const response = await fetch(`${notificationServiceUrl}/all`);
+        const response = await fetch(`${notificationServiceUrl}/all`, {
+          headers: {
+            "Authorization": "Bearer " + token
+          }
+        });
         if (response.ok) {
           const notifications = await response.json();
           const notificationsList = document.getElementById("notificationsList");
-          notificationsList.innerHTML = ""; // Clear the list
+          notificationsList.innerHTML = ""; // Limpar a lista
 
-          notifications.forEach((notification, index) => {
-            const notificationItem = document.createElement("div");
-            notificationItem.classList.add("notification-item");
-            notificationItem.innerHTML = `
-              <strong>Aviso ${index + 1}:</strong> ${notification.message}
-            `;
-            notificationsList.appendChild(notificationItem);
-          });
+          if (notifications.length === 0) {
+            notificationsList.innerHTML = "<p>Você ainda não tem notificações.</p>";
+          } else {
+            notifications.forEach((notification, index) => {
+              const notificationItem = document.createElement("div");
+              notificationItem.classList.add("notification-item");
+              notificationItem.innerHTML = `
+                <strong>Aviso ${index + 1}:</strong> ${notification.message}
+              `;
+              notificationsList.appendChild(notificationItem);
+            });
+          }
         } else {
-          alert("Failed to fetch notifications.");
+          const errorText = await response.text();
+          showMessage("Falha ao obter notificações: " + errorText, "error");
         }
       } catch (error) {
-        console.error("Error fetching notifications:", error);
-        alert("An error occurred while fetching notifications.");
+        console.error("Erro ao obter notificações:", error);
+        showMessage("Ocorreu um erro ao obter as notificações.", "error");
       }
     }
+
+    // Função para mostrar mensagens de sucesso ou erro
+    function showMessage(message, type) {
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("message", type);
+      msgDiv.innerText = message;
+
+      // Adicionar a mensagem no topo do conteúdo
+      const contentDiv = document.querySelector(".content");
+      contentDiv.insertBefore(msgDiv, contentDiv.firstChild);
+
+      // Remover a mensagem após alguns segundos
+      setTimeout(() => {
+        msgDiv.remove();
+      }, 5000);
+    }
+
+    // Ao carregar a página, verificar se o usuário já está logado
+    window.onload = function() {
+      token = localStorage.getItem("token");
+      const username = localStorage.getItem("username");
+      if (token && username) {
+        document.getElementById("usernameDisplay").innerText = username;
+        showLoggedInSection();
+        getAllTasks();
+        getNotifications();
+      } else {
+        showLoggedOutSection();
+      }
+    };
   </script>
 </body>
 </html>

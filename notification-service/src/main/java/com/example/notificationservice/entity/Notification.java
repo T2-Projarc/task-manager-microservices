@@ -16,6 +16,18 @@ public class Notification {
   private String type; // EX: INFO, WARNING, ERROR
   private boolean read;
 
+  private String username; // Novo campo para associar ao usuário
+
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  
   public Long getId() {
     return id;
   }
