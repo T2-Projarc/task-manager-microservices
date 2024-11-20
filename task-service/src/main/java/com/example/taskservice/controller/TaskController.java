@@ -10,6 +10,7 @@ import com.example.taskservice.service.TaskService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.time.LocalDateTime;
 
 @RestController
@@ -38,9 +39,9 @@ public class TaskController {
   }
 
   @PutMapping("/{id}")
-  public Task updateTask(@PathVariable Long id, @RequestBody TaskRequestDTO request) {
-    return taskService.updateTask(id, request);
-  }
+  public Task updateTask(@PathVariable Long id, @RequestBody Map<String, String> updates) {
+      return taskService.updateTask(id, updates);
+  }  
 
   @DeleteMapping("/{id}")
   public String deleteTask(@PathVariable Long id) {

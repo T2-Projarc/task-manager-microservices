@@ -14,6 +14,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.security.Key;
 import io.jsonwebtoken.io.Decoders;
 
@@ -30,29 +31,38 @@ public class TaskService {
   private static final String SECRET_KEY = "wK8gH3Dh0JUZK+GkUP0rP+lPSYwSLJJxQlX6DYwIurY=";
   private final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
 
-  public Task createTask(String description, LocalDateTime notificationTime, String priority, String status, String username) {
+  public Task createTask(String description, LocalDateTime notificationTime, String priority, String status,
+      String username) {
     Task task = new Task();
     task.setDescription(description);
     task.setNotificationTime(notificationTime);
     task.setPriority(priority); // Definindo prioridade
-    task.setStatus(status);     // Definindo status
+    task.setStatus(status); // Definindo status
     task.setUsername(username);
     return taskRepository.save(task);
-}
+  }
 
-
-  public Task updateTask(Long id, TaskRequestDTO request) {
-    // Busca a tarefa pelo ID
+  public Task updateTask(Long id, Map<String, String> updates) {
     Task task = taskRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Task not found!"));
 
-    // Atualiza os campos da tarefa usando os dados do DTO
-    task.setDescription(request.getDescription());
-    task.setNotificationTime(request.getNotificationTime());
-    task.setPriority(request.getPriority());
-    task.setStatus(request.getStatus());
+    // Atualiza apenas os campos enviados no payload
+    updates.forEach((key, value) -> {
+      switch (key) {
+        case "description":
+          task.setDescription(value);
+          break;
+        case "priority":
+          task.setPriority(value);
+          break;
+        case "status":
+          task.setStatus(value);
+          break;
+        default:
+          throw new IllegalArgumentException("Campo inválido: " + key);
+      }
+    });
 
-    // Salva e retorna a tarefa atualizada
     return taskRepository.save(task);
   }
 

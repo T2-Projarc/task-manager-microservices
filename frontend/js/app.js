@@ -191,7 +191,10 @@ async function getAllTasks() {
             <strong>Status:</strong> ${task.status || "N/A"} <br>
             <strong>Hora da Notificação:</strong> ${task.notificationTime.replace("T", " ")} <br>
             <strong>Notificado:</strong> ${task.notified ? "Sim" : "Não"}
-            <button onclick="editTask(${task.id})">Editar</button>
+            <br>
+            <button onclick="editField(${task.id}, 'description')">Editar Descrição</button>
+            <button onclick="editField(${task.id}, 'priority')">Editar Prioridade</button>
+            <button onclick="editField(${task.id}, 'status')">Editar Status</button>
             <button onclick="deleteTask(${task.id})">Excluir</button>
         `;
                     tasksList.appendChild(taskItem);
@@ -210,8 +213,8 @@ async function getAllTasks() {
 // Função edição da tarefa
 async function editTask(taskId) {
     const description = prompt("Nova descrição:");
-    const priority = prompt("Nova prioridade (HIGH, MEDIUM, LOW):");
-    const status = prompt("Novo status (PENDING, IN_PROGRESS, COMPLETED):");
+    const priority = prompt("Nova prioridade (Alta, Média, Baixa):");
+    const status = prompt("Novo status (Pendente/ Em Andamento/ Concluída):");
 
     const taskData = {
         description,
@@ -286,7 +289,7 @@ async function getNotifications() {
                     notificationItem.classList.add("notification-item");
                     notificationItem.innerHTML = `
             <strong>Aviso ${index + 1}:</strong> ${notification.message}
-          `;
+            `;
                     notificationsList.appendChild(notificationItem);
                 });
             }
@@ -299,6 +302,41 @@ async function getNotifications() {
         showMessage("Ocorreu um erro ao obter as notificações.", "error");
     }
 }
+
+async function editField(taskId, field) {
+    // Solicitar o novo valor para o campo
+    let newValue = prompt(`Digite o novo valor para ${field}:`);
+    if (!newValue) {
+        showMessage(`O campo ${field} não pode estar vazio.`, "error");
+        return;
+    }
+
+    // Criar o payload com apenas o campo atualizado
+    const taskData = { [field]: newValue };
+
+    try {
+        const response = await fetch(`${taskServiceUrl}/${taskId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify(taskData)
+        });
+
+        if (response.ok) {
+            showMessage(`Tarefa atualizada com sucesso!`, "success");
+            await getAllTasks(); // Atualizar a lista de tarefas
+        } else {
+            const errorText = await response.text();
+            showMessage(`Erro ao atualizar ${field}: ${errorText}`, "error");
+        }
+    } catch (error) {
+        console.error(`Erro ao atualizar ${field}:`, error);
+        showMessage(`Erro ao atualizar ${field}.`, "error");
+    }
+}
+
 
 // Função para mostrar mensagens de sucesso ou erro
 function showMessage(message, type) {
