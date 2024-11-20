@@ -420,6 +420,10 @@
               taskItem.classList.add("task-item");
               taskItem.innerHTML = `
                 <strong>Descrição:</strong> ${task.description} <br>
+                <strong>Prioridade:</strong> ${task.priority} <br>
+                <strong>Status:</strong> ${task.status} <br>
+                <button onclick="editTask(${task.id})">Editar</button>
+                <button onclick="deleteTask(${task.id})">Excluir</button>
                 <strong>Hora da Notificação:</strong> ${task.notificationTime.replace("T", " ")} <br>
                 <strong>Notificado:</strong> ${task.notified ? "Sim" : "Não"}
               `;
@@ -435,6 +439,64 @@
         showMessage("Ocorreu um erro ao obter as tarefas.", "error");
       }
     }
+
+    // Função edição da tarefa
+    async function editTask(taskId) {
+    const description = prompt("Nova descrição:");
+    const priority = prompt("Nova prioridade (HIGH, MEDIUM, LOW):");
+    const status = prompt("Novo status (PENDING, IN_PROGRESS, COMPLETED):");
+
+    const taskData = {
+        description,
+        priority,
+        status
+    };
+
+    try {
+        const response = await fetch(`${taskServiceUrl}/${taskId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify(taskData)
+        });
+
+        if (response.ok) {
+            showMessage("Tarefa editada com sucesso!", "success");
+            getAllTasks(); // Atualiza a lista de tarefas
+        } else {
+            const errorText = await response.text();
+            showMessage("Erro ao editar tarefa: " + errorText, "error");
+        }
+    } catch (error) {
+        console.error("Erro ao editar tarefa:", error);
+        showMessage("Ocorreu um erro ao editar a tarefa.", "error");
+    }
+  }
+
+    // Função para remover uma tarefa pelo ID
+    async function deleteTask(taskId) {
+    try {
+        const response = await fetch(`${taskServiceUrl}/${taskId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        if (response.ok) {
+            showMessage("Tarefa excluída com sucesso!", "success");
+            getAllTasks(); // Atualiza a lista de tarefas
+        } else {
+            const errorText = await response.text();
+            showMessage("Erro ao excluir tarefa: " + errorText, "error");
+        }
+    } catch (error) {
+        console.error("Erro ao excluir tarefa:", error);
+        showMessage("Ocorreu um erro ao excluir a tarefa.", "error");
+    }
+  }
 
     // Função para obter todas as notificações do usuário autenticado
     async function getNotifications() {

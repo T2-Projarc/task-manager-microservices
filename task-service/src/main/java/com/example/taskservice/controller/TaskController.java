@@ -2,6 +2,8 @@ package com.example.taskservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import com.example.taskservice.dto.TaskRequestDTO;
 import com.example.taskservice.entity.Task;
 import com.example.taskservice.service.TaskService;
 
@@ -29,6 +31,18 @@ public class TaskController {
     String username = taskService.extractUsernameFromToken(httpRequest);
     return taskService.getTasksByUsername(username);
   }
+
+  @PutMapping("/{id}")
+  public Task updateTask(@PathVariable Long id, @RequestBody TaskRequestDTO request) {
+    return taskService.updateTask(id, request);
+  }
+
+  @DeleteMapping("/{id}")
+  public String deleteTask(@PathVariable Long id) {
+    taskService.deleteTask(id);
+    return "Task deleted successfully!";
+  }
+
 }
 
 class TaskRequest {

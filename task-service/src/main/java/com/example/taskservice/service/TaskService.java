@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.example.taskservice.dto.TaskRequestDTO;
 import com.example.taskservice.entity.Task;
 import com.example.taskservice.repository.TaskRepository;
 import io.jsonwebtoken.Claims;
@@ -34,6 +36,29 @@ public class TaskService {
     task.setNotificationTime(notificationTime);
     task.setUsername(username);
     return taskRepository.save(task);
+  }
+
+  public Task updateTask(Long id, TaskRequestDTO request) {
+    // Busca a tarefa pelo ID
+    Task task = taskRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Task not found!"));
+
+    // Atualiza os campos da tarefa usando os dados do DTO
+    task.setDescription(request.getDescription());
+    task.setNotificationTime(request.getNotificationTime());
+    task.setPriority(request.getPriority());
+    task.setStatus(request.getStatus());
+
+    // Salva e retorna a tarefa atualizada
+    return taskRepository.save(task);
+  }
+
+  public void deleteTask(Long id) {
+    // Verifica se a tarefa existe antes de tentar excluir
+    if (!taskRepository.existsById(id)) {
+      throw new RuntimeException("Task not found!");
+    }
+    taskRepository.deleteById(id);
   }
 
   public List<Task> getTasksByUsername(String username) {
