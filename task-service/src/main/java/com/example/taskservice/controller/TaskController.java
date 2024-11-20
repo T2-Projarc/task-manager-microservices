@@ -21,9 +21,14 @@ public class TaskController {
   private TaskService taskService;
 
   @PostMapping("/create")
-  public Task createTask(@RequestBody TaskRequest request, HttpServletRequest httpRequest) {
+  public Task createTask(@RequestBody TaskRequestDTO request, HttpServletRequest httpRequest) {
     String username = taskService.extractUsernameFromToken(httpRequest);
-    return taskService.createTask(request.getDescription(), request.getNotificationTime(), username);
+    return taskService.createTask(
+        request.getDescription(),
+        request.getNotificationTime(),
+        request.getPriority(), // Adicionando prioridade
+        request.getStatus(), // Adicionando status
+        username);
   }
 
   @GetMapping("/all")

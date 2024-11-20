@@ -18,26 +18,10 @@ public class Task {
   private boolean notified5MinutesBefore;
   private boolean notifiedOnTime;
   private String priority; // campo para prioridade
-  private String status;   // campo para status
+  private String status; // campo para status
   private String username; // Novo campo para associar ao usuário
 
   // Getters and setters
-  public String getPriority() {
-    return priority;
-}
-
-public void setPriority(String priority) {
-    this.priority = priority;
-}
-
-public String getStatus() {
-    return status;
-}
-
-public void setStatus(String status) {
-    this.status = status;
-}
-
   public String getUsername() {
     return username;
   }
@@ -45,7 +29,7 @@ public void setStatus(String status) {
   public void setUsername(String username) {
     this.username = username;
   }
-  
+
   public Long getId() {
     return id;
   }
@@ -100,5 +84,21 @@ public void setStatus(String status) {
 
   public void setNotifiedOnTime(boolean notifiedOnTime) {
     this.notifiedOnTime = notifiedOnTime;
+  }
+
+  public String getPriority() {
+    return priority;
+  }
+
+  public void setPriority(String priority) {
+    this.priority = priority;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
   }
 }

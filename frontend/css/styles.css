@@ -1,0 +1,205 @@
+/* Estilos Gerais */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+body {
+    background-color: #e9dffb;
+    /* Fundo principal */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    background-color: #ffffff;
+    /* Fundo das seções */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+header {
+    background-color: #bc98f3;
+    /* Cabeçalho */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+header h1 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+header img {
+    margin-top: 10px;
+    border-radius: 10px;
+    animation: bounce 2s infinite alternate;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-10px);
+    }
+}
+
+.content {
+    padding: 20px;
+}
+
+h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="datetime-local"] {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #bc98f3;
+    /* Contorno dos inputs */
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime-local"]:focus {
+    border-color: #aadeff;
+    /* Contorno ao focar */
+    box-shadow: 0 0 5px rgba(170, 222, 255, 0.5);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    color: white;
+    background-color: #bc98f3;
+    /* Botões principais */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+button:hover {
+    background-color: #aadeff;
+    /* Botões ao passar o mouse */
+    transform: scale(1.02);
+}
+
+.refresh-button {
+    background-color: #d1eaf9;
+    /* Botões secundários */
+    color: #333;
+    margin-top: 15px;
+    width: auto;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.refresh-button:hover {
+    background-color: #aadeff;
+    /* Hover em botões secundários */
+}
+
+.section {
+    margin-top: 30px;
+}
+
+.task-item,
+.notification-item {
+    background-color: #ffffff;
+    /* Fundo das tarefas e notificações */
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #d3bcf6;
+    /* Bordas suaves */
+    margin-top: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.task-item strong,
+.notification-item strong {
+    display: block;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Estilo para mensagens de erro e sucesso */
+.message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.message.success {
+    background-color: #d1eaf9;
+    /* Mensagem de sucesso */
+    color: #256029;
+    border: 1px solid #aadeff;
+}
+
+.message.error {
+    background-color: #fdecea;
+    /* Mensagem de erro */
+    color: #8a1b0b;
+    border: 1px solid #f5c6cb;
+}
+
+/* Estilo para os campos de seleção */
+select {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #bc98f3;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+select:focus {
+    border-color: #aadeff;
+    box-shadow: 0 0 5px rgba(170, 222, 255, 0.5);
+}

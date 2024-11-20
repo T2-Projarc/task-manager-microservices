@@ -30,13 +30,16 @@ public class TaskService {
   private static final String SECRET_KEY = "wK8gH3Dh0JUZK+GkUP0rP+lPSYwSLJJxQlX6DYwIurY=";
   private final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
 
-  public Task createTask(String description, LocalDateTime notificationTime, String username) {
+  public Task createTask(String description, LocalDateTime notificationTime, String priority, String status, String username) {
     Task task = new Task();
     task.setDescription(description);
     task.setNotificationTime(notificationTime);
+    task.setPriority(priority); // Definindo prioridade
+    task.setStatus(status);     // Definindo status
     task.setUsername(username);
     return taskRepository.save(task);
-  }
+}
+
 
   public Task updateTask(Long id, TaskRequestDTO request) {
     // Busca a tarefa pelo ID
