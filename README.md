@@ -156,7 +156,7 @@ O sistema é baseado em uma arquitetura de **microsserviços** composta pelos se
    ```bash
    py -m http.server 3000
    ```
-   - A aplicação estará disponível em `http://localhost:3000/#`.
+   - A aplicação estará disponível em <http://localhost:3000/frontend/>.
 
 4. **Executando a Aplicação - Backend**
    - Inicie cada serviço individualmente usando:
