@@ -27,9 +27,10 @@
 ## ℹ️ Informações Gerais
 
 - **Status:** Concuído
-- **Integrantes:** Esthevan Pereira, Lucas Ramon, Maria Eduarda Maia, Maurício Krziminski, Mauricio Gaspary
+- **Integrantes:** Esthevan Pereira, Lucas Ramon, Maria Eduarda Maia, Maurício Krziminski, Mauricio Gaspary, Renan Rubbo Silveira
 - **Link Repositório:** [Clique Aqui](https://github.com/T2-Projarc/task-manager-microservices)
 - **Link Relatório:** [Clique Aqui](https://docs.google.com/document/d/1lvYgolHHPINpKCL97cOvSgLZaYilDP6hm4okh7JmOa0/edit?usp=sharing)
+- **Link Para Apresentação do Trabalho:** [Clique Aqui](https://exemplo.com/temporario)
 
 ---
 
@@ -53,10 +54,11 @@ Em um mundo cada vez mais acelerado, a **organização de tarefas pessoais e pro
 
 Este projeto é um **Aplicativo de Gerenciamento de Tarefas** com arquitetura de **microsserviços**. O sistema permite que usuários:
 
-- Criem, editem e excluam tarefas
-- Definam prioridades e status
-- Recebam lembretes automáticos baseados no tempo de notificação definido
-- Organizem melhor seus compromissos diários e projetos
+- Criem, editem e excluam tarefas.
+- Definam prioridades e status personalizados como você bem entender.
+- Recebam lembretes automáticos baseados no tempo de notificação definido.
+- Organizem melhor seus compromissos diários e projetos.
+- Sistema fácil e intuitivo de usar.
 
 ---
 
@@ -286,4 +288,4 @@ node "Database" {
 
 ## 📌 Conclusão
 
-Este aplicativo de gerenciamento de tarefas em microsserviços oferece uma solução prática e escalável para organizar compromissos e garantir o cumprimento de prazos. É uma opção eficaz para usuários que buscam uma forma segura e confiável de gerenciar seu tempo e produtividade.
+O Aplicativo de Gerenciamento de Tarefas com Microsserviços oferece uma solução escalável e eficiente para organização de tarefas pessoais e profissionais. Sua arquitetura baseada em microsserviços garante flexibilidade, segurança e fácil manutenção. Com recursos como autenticação JWT, lembretes automáticos e uma interface intuitiva, o sistema é tanto fácil de usar quanto robusto o suficiente para atender a diferentes necessidades. O uso de tecnologias como Spring Boot e RabbitMQ/Kafka assegura desempenho e confiabilidade, tornando o aplicativo uma ferramenta eficaz para aumentar a produtividade de seus usuários.
