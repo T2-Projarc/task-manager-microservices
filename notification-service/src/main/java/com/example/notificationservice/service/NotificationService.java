@@ -41,6 +41,8 @@ public class NotificationService {
     notificationRepository.save(notification);
   }
 
+  
+
   public String extractUsernameFromToken(HttpServletRequest request) {
     String header = request.getHeader("Authorization");
     if (header != null && header.startsWith("Bearer ")) {
