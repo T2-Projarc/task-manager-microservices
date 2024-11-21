@@ -1,6 +1,6 @@
 # 📝 Aplicativo de Gerenciamento de Tarefas com Microsserviços
 
-<sub>*Uma solução simples e escalável para organizar tarefas, com autenticação de usuários e lembretes automáticos.*</sub>
+<sub>_Uma solução simples e escalável para organizar tarefas, com autenticação de usuários e lembretes automáticos._</sub>
 
 <div align="center">
  <img height=250 width=250 src="https://media.tenor.com/Q9rfrj2lA6kAAAAi/smolverse-smol.gif">
@@ -27,7 +27,7 @@
 ## ℹ️ Informações
 
 - **Status:** Concuído
-- **Integrantes:** Esthevan Pereira, Lucas Ramon, Maria Eduarda Maia, Maurício Krziminski, Mauricio Gaspary
+- **Integrantes:** Esthevan Pereira, Lucas Ramon, Maria Eduarda Maia, Mauricio Krziminski, Mauricio Gaspary
 - **Link:** [Link Repositório](https://github.com/T2-Projarc/task-manager-microservices)
 
 ---
@@ -52,10 +52,10 @@ Em um mundo cada vez mais acelerado, a **organização de tarefas pessoais e pro
 
 Este projeto é um **Aplicativo de Gerenciamento de Tarefas** com arquitetura de **microsserviços**. O sistema permite que usuários:
 
-- Criem, editem e excluam tarefas
-- Definam prioridades e status
-- Recebam lembretes automáticos baseados no tempo de notificação definido
-- Organizem melhor seus compromissos diários e projetos
+- Criem, editem e excluam tarefas.
+- Definam prioridades e status.
+- Recebam lembretes automáticos baseados no tempo de notificação definido.
+- Organizem melhor seus compromissos diários e projetos.
 
 ---
 
@@ -127,30 +127,40 @@ O sistema é baseado em uma arquitetura de **microsserviços** composta pelos se
 ### Instruções de Instalação
 
 1. **Clone o repositório**:
+
    ```bash
    git clone https://github.com/T2-Projarc/task-manager-microservices
    cd task-manager-microservices
    ```
 
 2. **Instalação das Dependências**:
+
    - Execute o Maven para instalar as dependências:
+
    ```bash
    mvn clean install
    ```
 
 3. **Executando a Aplicação - Frontend**
+
    - Entre na pasta do frontend:
+
    ```bash
    cd frontend
    ```
+
    - Execute o seguinte comando para rodar o frontend:
+
    ```bash
    py -m http.server 3000
    ```
+
    - A aplicação estará disponível em `http://localhost:3000/#`.
 
 4. **Executando a Aplicação - Backend**
+
    - Inicie cada serviço individualmente usando:
+
    ```bash
    mvn spring-boot:run
    ```
