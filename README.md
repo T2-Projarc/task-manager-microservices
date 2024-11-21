@@ -11,24 +11,25 @@
 ## 📜 Índice
 
 - [ℹ️ Informações](#-informações)
-- [💡 Visão Geral](#-visão-geral)
 - [🎯 Proposta do Projeto](#-proposta-do-projeto)
 - [📈 Contexto e Justificativa](#-contexto-e-justificativa)
-- [🛠️ Arquitetura do Sistema](#-arquitetura-do-sistema)
-- [💻 Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [💡 Visão Geral](#-visão-geral)
 - [🧩 Funcionalidades](#-funcionalidades)
-- [🏗️ Arquitetura](#%EF%B8%8F-arquitetura)
-- [📥 Instalação e Execução](#-instalação-e-execução)
 - [📊 Benefícios para o Usuário](#-benefícios-para-o-usuário)
+- [🏗️ Arquitetura](#%EF%B8%8F-arquitetura)
+- [💻 Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [↪️ Diagramas UML](#-diagramas-uml)
+- [📥 Instalação e Execução](#-instalação-e-execução)
 - [📌 Conclusão](#-conclusão)
 
 ---
 
-## ℹ️ Informações
+## ℹ️ Informações Gerais
 
 - **Status:** Concuído
 - **Integrantes:** Esthevan Pereira, Lucas Ramon, Maria Eduarda Maia, Maurício Krziminski, Mauricio Gaspary
-- **Link:** [Link Repositório](https://github.com/T2-Projarc/task-manager-microservices)
+- **Link Repositório:** [Clique Aqui](https://github.com/T2-Projarc/task-manager-microservices)
+- **Link Relatório:** [Clique Aqui](https://docs.google.com/document/d/1lvYgolHHPINpKCL97cOvSgLZaYilDP6hm4okh7JmOa0/edit?usp=sharing)
 
 ---
 
@@ -115,6 +116,14 @@ O sistema é baseado em uma arquitetura de **microsserviços** composta pelos se
 - **SpringDoc OpenAPI** para documentação automática da API
 - **MapStruct e Lombok** para simplificação e mapeamento de classes
 
+---
+
+## ↪️ Diagramas UML
+
+- Todos os diagramas foram feitos no PlantUML
+- Tem diagrama geral de classes e componentes
+- Cada microsserviço tem seu diagrama de classe separadamente
+- Os diagramas estão localizados no relatório do trabalho: [Clique Aqui](https://docs.google.com/document/d/1lvYgolHHPINpKCL97cOvSgLZaYilDP6hm4okh7JmOa0/edit?usp=sharing)
 ---
 
 ## 📥 Instalação e Execução
