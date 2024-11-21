@@ -123,7 +123,109 @@ O sistema é baseado em uma arquitetura de **microsserviços** composta pelos se
 - Todos os diagramas foram feitos no PlantUML
 - Tem diagrama geral de classes e componentes
 - Cada microsserviço tem seu diagrama de classe separadamente
-- Os diagramas estão localizados no relatório do trabalho: [Clique Aqui](https://docs.google.com/document/d/1lvYgolHHPINpKCL97cOvSgLZaYilDP6hm4okh7JmOa0/edit?usp=sharing)
+- Todos os diagramas estão localizados no relatório do trabalho: [Clique Aqui](https://docs.google.com/document/d/1lvYgolHHPINpKCL97cOvSgLZaYilDP6hm4okh7JmOa0/edit?usp=sharing)
+
+### Diagrama de Classes Geral
+- Esse diagrama de classes apresenta as principais entidades do sistema, destacando suas propriedades e métodos, e como eles se relacionam. Abaixo está o link da imagem, o diagrama e seu script:
+- Link da imagem: [Clique Aqui](https://www.plantuml.com/plantuml/png/lLN1Rjim3BtxAuIUNCG1jiCkmr0qNLViiBL0ads09j6f44NoABfOCVJV5sPkB5jgdDDqIl8UoST74haE997QdIqQgRPo0-BYTlrm8VuKOl-KbI68jGpR9Vng8T0UOwXxSw4XA3GD6U_4Hx4YD6uJmSwJgOsIZA_D3lQSRrv9Uoi9-7j4RT1uDFISInD8KXk6o4lnKlIQlpZQnwQo8x4pOVIXVfHwThg1sMG32HMuna_lBKYN0T-_-svSIn1keFO89xaVpgS-iBWivOIlizxN16a3e9CxEENv4XeV37ay-cuS0TPImS7x7XzCeJPEtppVTyhlf0smSFf-PFIY9i2ICfPVyWycq2UkSPKa_j4fBvCMHe5fGol09wCWtQ8E6BIX42G1esLkXwh9rQdIqLJZYLGYsmLNZOVLw5SfnnMl1FwxMAOFxZUJG8E5SGAcFNcZ8ze6Y3dXV9EZOFXDA1MzHjwXtwtz5bpPw_nArB3L5gYJUvdRJVK8QhjmUWN3jGbbhpcPxMVl2BsrWEbuU-oj2R_bPIKUYPhbH0SSCxHnOUt1oN8wFBRpFymyEVUHGVFvLNmIHVIPiT7X5qCPHqPn3KxpdyvV)
+  
+<div align="center">
+ <img src="https://www.plantuml.com/plantuml/png/lLN1Rjim3BtxAuIUNCG1jiCkmr0qNLViiBL0ads09j6f44NoABfOCVJV5sPkB5jgdDDqIl8UoST74haE997QdIqQgRPo0-BYTlrm8VuKOl-KbI68jGpR9Vng8T0UOwXxSw4XA3GD6U_4Hx4YD6uJmSwJgOsIZA_D3lQSRrv9Uoi9-7j4RT1uDFISInD8KXk6o4lnKlIQlpZQnwQo8x4pOVIXVfHwThg1sMG32HMuna_lBKYN0T-_-svSIn1keFO89xaVpgS-iBWivOIlizxN16a3e9CxEENv4XeV37ay-cuS0TPImS7x7XzCeJPEtppVTyhlf0smSFf-PFIY9i2ICfPVyWycq2UkSPKa_j4fBvCMHe5fGol09wCWtQ8E6BIX42G1esLkXwh9rQdIqLJZYLGYsmLNZOVLw5SfnnMl1FwxMAOFxZUJG8E5SGAcFNcZ8ze6Y3dXV9EZOFXDA1MzHjwXtwtz5bpPw_nArB3L5gYJUvdRJVK8QhjmUWN3jGbbhpcPxMVl2BsrWEbuU-oj2R_bPIKUYPhbH0SSCxHnOUt1oN8wFBRpFymyEVUHGVFvLNmIHVIPiT7X5qCPHqPn3KxpdyvV" alt="Diagrama de Classes Geral" width="700">
+</div>
+
+```PlantUML
+@startuml
+package "DTO" {
+    class TaskRequestDTO {
+        - description : String
+        - notificationTime : LocalDateTime
+        - priority : String
+        - status : String
+    }
+}
+
+package "Entity" {
+    class Task {
+        + id : Long
+        + description : String
+        + notificationTime : LocalDateTime
+        + notified : boolean
+        + notified10MinutesBefore : boolean
+        + notified5MinutesBefore : boolean
+        + notifiedOnTime : boolean
+        + priority : String
+        + status : String
+        + username : String
+    }
+}
+
+package "Repository" {
+    interface TaskRepository {
+        + findByNotifiedFalseAndNotificationTimeAfter(time : LocalDateTime) : List<Task>
+        + findByUsername(username : String) : List<Task>
+    }
+}
+
+package "Service" {
+    class TaskService {
+        + createTask(description : String, notificationTime : LocalDateTime, priority : String, status : String, username : String) : Task
+        + updateTask(id : Long, request : TaskRequestDTO) : Task
+        + deleteTask(id : Long) : void
+        + getTasksByUsername(username : String) : List<Task>
+        + extractUsernameFromToken(request : HttpServletRequest) : String
+        + checkAndSendNotifications() : void
+    }
+}
+
+package "Controller" {
+    class TaskController {
+        + createTask(request : TaskRequestDTO, httpRequest : HttpServletRequest) : Task
+        + getAllTasks(httpRequest : HttpServletRequest) : List<Task>
+        + updateTask(id : Long, request : TaskRequestDTO) : Task
+        + deleteTask(id : Long) : String
+    }
+}
+
+TaskController --> TaskService
+TaskService --> TaskRepository
+TaskRequestDTO --> Task
+@enduml
+```
+
+### Diagrama de Componentes Geral
+- Esse diagrama de componentes apresenta aarquitetura em alto nível, destacando como os microsserviços e outros componentes do sistema interagem. Abaixo está o link da imagem, o diagrama e seu script:
+- Link da imagem: [Clique Aqui](https://www.plantuml.com/plantuml/png/VPB1IiD048Rl-nH3xy6x1sbLX29AZTMBU9Wa4rpIxkhER2_YmuW7mRjFa1TpWcsDwsAE__p_bt-6dR9WaBXU6USRWibPy4x8DHDuDg3VNKbO2ynL32tMT6zUpDPwZ7KtTYwHk-AQmiQgxLkQHNb8f4iljhKrYlLkF_g1dg9WXKo_gB1JHzYHfk4_DQ4eZf9AS0YpnHnAUeh4mYQPQY3zcoOM5DYoz1-kjWZQS8c1MiocyxifvCIlerEzV-_VF6mKL69LMRcuEZZ7jiCCBBcTGcvnPPijOkZXzVXi4ji--VyIDnpxrs0zctpd_FLAuaVFWZmWTZajz4bifkIQuHLz0G00)
+
+<div align="center">
+ <img src="https://www.plantuml.com/plantuml/png/VPB1IiD048Rl-nH3xy6x1sbLX29AZTMBU9Wa4rpIxkhER2_YmuW7mRjFa1TpWcsDwsAE__p_bt-6dR9WaBXU6USRWibPy4x8DHDuDg3VNKbO2ynL32tMT6zUpDPwZ7KtTYwHk-AQmiQgxLkQHNb8f4iljhKrYlLkF_g1dg9WXKo_gB1JHzYHfk4_DQ4eZf9AS0YpnHnAUeh4mYQPQY3zcoOM5DYoz1-kjWZQS8c1MiocyxifvCIlerEzV-_VF6mKL69LMRcuEZZ7jiCCBBcTGcvnPPijOkZXzVXi4ji--VyIDnpxrs0zctpd_FLAuaVFWZmWTZajz4bifkIQuHLz0G00" alt="Diagrama de Componentes Geral" width="600">
+</div>
+
+ ```PlantUML
+@startuml
+node "Frontend" {
+    [React Interface]
+}
+
+node "Backend" {
+    [Task-Service]
+    [Auth-Service]
+    [Notification-Service]
+}
+
+node "Database" {
+    [Task Database]
+    [Auth Database]
+}
+
+[React Interface] --> [Task-Service] : API Requests
+[Task-Service] --> [Task Database] : Persistência de Tarefas
+[Task-Service] --> [Notification-Service] : Comunicação via RabbitMQ/Kafka
+[Task-Service] --> [Auth-Service] : Validação de Tokens
+[Auth-Service] --> [Auth Database] : Persistência de Usuários
+[Notification-Service] --> [Task-Service] : Respostas de Notificações
+@enduml
+```
+
 ---
 
 ## 📥 Instalação e Execução
