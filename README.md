@@ -1,7 +1,3 @@
-Aqui está a versão adaptada para o novo tema: **Gerenciamento de Tarefas com Microsserviços**.
-
----
-
 # 📝 Aplicativo de Gerenciamento de Tarefas com Microsserviços
 
 <sub>*Uma solução simples e escalável para organizar tarefas, com autenticação de usuários e lembretes automáticos.*</sub>
@@ -30,19 +26,9 @@ Aqui está a versão adaptada para o novo tema: **Gerenciamento de Tarefas com M
 
 ## ℹ️ Informações
 
-- **Status:** Em andamento
-- **Integrantes:** Esthevan Pereira, Lucas Ramon, Maria Eduarda Maia, Maurício Krziminski
-- **Link:** [Link Repositório](https://github.com/DudaWendelMaia/T2-Projarc.git)
-
----
-
-## 💡 Visão Geral
-
-Este projeto é um **Aplicativo de Gerenciamento de Tarefas** com arquitetura de **microsserviços**. O sistema permite que usuários:
-
-- **Gerenciem suas tarefas** de forma organizada e segura
-- **Recebam lembretes automáticos** para tarefas pendentes
-- **Autentiquem-se facilmente**, garantindo segurança e personalização
+- **Status:** Concuído
+- **Integrantes:** Esthevan Pereira, Lucas Ramon, Maria Eduarda Maia, Maurício Krziminski, Mauricio Gaspary
+- **Link:** [Link Repositório](https://github.com/T2-Projarc/task-manager-microservices)
 
 ---
 
@@ -62,39 +48,57 @@ Em um mundo cada vez mais acelerado, a **organização de tarefas pessoais e pro
 
 ---
 
+## 💡 Visão Geral
+
+Este projeto é um **Aplicativo de Gerenciamento de Tarefas** com arquitetura de **microsserviços**. O sistema permite que usuários:
+
+- Criem, editem e excluam tarefas
+- Definam prioridades e status
+- Recebam lembretes automáticos baseados no tempo de notificação definido
+- Organizem melhor seus compromissos diários e projetos
+
+---
+
 ## 🧩 Funcionalidades
 
 O sistema oferece várias funcionalidades voltadas para a **organização pessoal**, incluindo:
 
-1. **Cadastro e Autenticação de Usuários**
-   - Registro e login de usuários com controle de acesso seguro.
+- **Criação de Tarefas**: Adicione descrições, defina prioridade e status.
+- **Edição Flexível**: Atualize descrições, prioridades ou status individualmente.
+- **Lembretes Automáticos**: Receba notificações personalizadas com base no tempo definido.
+- **Exclusão de Tarefas**: Remova tarefas desnecessárias com facilidade.
+- **Autenticação Segura**: Login e registro de usuários com token JWT.
+- **Documentação Automatizada**: Use o Swagger para explorar os endpoints.
 
-2. **Gerenciamento de Tarefas**
-   - Criação, edição e exclusão de tarefas com opções de prioridade e status.
+---
 
-3. **Notificações e Lembretes Automáticos**
-   - Receba lembretes de tarefas próximas ao vencimento para facilitar o planejamento.
+## 📊 Benefícios para o Usuário
 
-4. **Relatórios e Análises de Tarefas**
-   - Geração de relatórios sobre tarefas concluídas, pendentes e de alta prioridade.
-
-5. **Integração com Sistema de Lembretes Externos**
-   - Envio de notificações para dispositivos móveis e e-mails.
+- **Escalabilidade e Flexibilidade**: A arquitetura modular permite que o sistema cresça conforme a demanda aumenta.
+- **Organização e Produtividade**: Ferramentas de gerenciamento de tarefas e lembretes automáticos tornam a organização mais eficiente.
+- **Segurança e Controle**: Autenticação robusta e proteção de dados para cada usuário.
+- **Acessibilidade e Facilidade de Uso**: Interface amigável e intuitiva, com documentação da API acessível para desenvolvedores.
 
 ---
 
 ## 🏗️ Arquitetura
 
-A arquitetura do sistema é baseada em **microsserviços**, cada um com uma responsabilidade específica, interligados por um **Gateway de API** para controle de acesso e roteamento.
+O sistema é baseado em uma arquitetura de **microsserviços** composta pelos seguintes componentes:
 
 ### Componentes da Arquitetura:
 
-- **Gateway de API**: Centraliza as requisições de autenticação e balanceia o tráfego entre os microsserviços.
-- **Microsserviços Independentes**: Cada serviço é isolado e gerencia uma funcionalidade:
-  - **Autenticação de Usuários**: Gerencia o cadastro e login de usuários, aplicando autenticação segura.
-  - **Gerenciamento de Tarefas**: Cria e gerencia as tarefas de cada usuário, com opções de prioridade e status.
-  - **Notificações e Lembretes**: Envia notificações sobre tarefas pendentes e vencidas.
-- **Banco de Dados em Desenvolvimento**: Utilizamos o **H2 Database** em ambiente de desenvolvimento para simplificar a configuração e execução.
+1. **Auth-Service**: Gerencia autenticação e autorização com JWT.
+2. **Task-Service**: Responsável por criar, editar e gerenciar tarefas.
+3. **Notification-Service**: Sistema de notificações para alertar usuários sobre suas tarefas.
+4. **Gateway**: Roteia as requisições entre os microsserviços.
+5. **Service Discovery (Eureka)**: Permite que os microsserviços se registrem e descubram uns aos outros.
+
+### Fluxo de Comunicação:
+
+- O **Auth-Service** autentica os usuários.
+- O **Gateway** direciona as requisições para os serviços apropriados.
+- O **Task-Service** processa os dados das tarefas e interage com o banco de dados.
+- O **Notification-Service** envia lembretes automáticos via mensagens assíncronas usando RabbitMQ ou Kafka.
 
 ---
 
@@ -124,8 +128,8 @@ A arquitetura do sistema é baseada em **microsserviços**, cada um com uma resp
 
 1. **Clone o repositório**:
    ```bash
-   git clone https://github.com/DudaWendelMaia/T2-Projarc.git
-   cd gerenciador-tarefas-microsservicos
+   git clone https://github.com/T2-Projarc/task-manager-microservices
+   cd task-manager-microservices
    ```
 
 2. **Instalação das Dependências**:
@@ -134,26 +138,26 @@ A arquitetura do sistema é baseada em **microsserviços**, cada um com uma resp
    mvn clean install
    ```
 
-3. **Executando a Aplicação**
+3. **Executando a Aplicação - Frontend**
+   - Entre na pasta do frontend:
+   ```bash
+   cd frontend
+   ```
+   - Execute o seguinte comando para rodar o frontend:
+   ```bash
+   py -m http.server 3000
+   ```
+   - A aplicação estará disponível em `http://localhost:3000/#`.
+
+4. **Executando a Aplicação - Backend**
    - Inicie cada serviço individualmente usando:
    ```bash
    mvn spring-boot:run
    ```
 
-4. **Acessando a Aplicação**
-   - A aplicação estará disponível em `http://localhost:8080`.
-
-5. **Documentação da API**
-   - Acesse a documentação da API gerada automaticamente pelo OpenAPI em `http://localhost:8080/swagger-ui.html`.
-
----
-
-## 📊 Benefícios para o Usuário
-
-- **Escalabilidade e Flexibilidade**: A arquitetura modular permite que o sistema cresça conforme a demanda aumenta.
-- **Organização e Produtividade**: Ferramentas de gerenciamento de tarefas e lembretes automáticos tornam a organização mais eficiente.
-- **Segurança e Controle**: Autenticação robusta e proteção de dados para cada usuário.
-- **Acessibilidade e Facilidade de Uso**: Interface amigável e intuitiva, com documentação da API acessível para desenvolvedores.
+5. **Acessando a Documentação (Swagger)**
+   - Acesse a documentação da API gerada automaticamente pelo OpenAPI em `http://localhost:porta/swagger-ui/index.html#/`.
+   - Substitua `porta` pela porta em que o microsserviço está rodando.
 
 ---
 
