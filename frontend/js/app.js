@@ -76,7 +76,7 @@ window.logout = function logout() {
 }
 
 // Função para alternar entre seções de registro e login
-function toggleSections() {
+window.toggleSections = function toggleSections() {
     const registrationSection = document.getElementById("registrationSection");
     const loginSection = document.getElementById("loginSection");
     registrationSection.classList.toggle("hidden");
