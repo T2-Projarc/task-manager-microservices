@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.notificationservice.entity.Notification;
+import com.example.notificationservice.service.EmailService;
 import com.example.notificationservice.service.NotificationService;
 import jakarta.servlet.http.HttpServletRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,9 +17,23 @@ public class NotificationController {
   @Autowired
   private NotificationService notificationService;
 
+  @Autowired
+  private EmailService emailService;
+
   @PostMapping("/internal")
   public Notification createInternalNotification(@RequestBody NotificationRequest request) {
-    return notificationService.createNotification(request.getMessage(), request.getType(), request.getUsername());
+    Notification notification = notificationService.createNotification(request.getMessage(), request.getType(), request.getUsername());
+
+    // Enviar e-mail quando a notificação for criada
+    String emailStatus = emailService.sendMailString(
+        request.getUsername(), // Assumindo que username é o e-mail do destinatário
+        "Nova Notificação: " + request.getType(),
+        request.getMessage()
+    );
+
+    System.out.println("Status do envio do e-mail: " + emailStatus);
+
+    return notification;
   }
 
   @GetMapping("/all")
