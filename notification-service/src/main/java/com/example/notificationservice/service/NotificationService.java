@@ -18,7 +18,6 @@ public class NotificationService {
   @Autowired
   private NotificationRepository notificationRepository;
 
-  // Sua chave secreta (deve ser a mesma usada no auth-service)
   private static final String SECRET_KEY = "wK8gH3Dh0JUZK+GkUP0rP+lPSYwSLJJxQlX6DYwIurY=";
   private final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
 
@@ -47,10 +46,10 @@ public class NotificationService {
     if (header != null && header.startsWith("Bearer ")) {
       String token = header.substring(7);
       Claims claims = Jwts.parserBuilder()
-              .setSigningKey(key)
-              .build()
-              .parseClaimsJws(token)
-              .getBody();
+          .setSigningKey(key)
+          .build()
+          .parseClaimsJws(token)
+          .getBody();
       return claims.getSubject();
     } else {
       throw new RuntimeException("Token JWT não encontrado ou inválido");

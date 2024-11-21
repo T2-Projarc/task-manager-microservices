@@ -27,8 +27,8 @@ public class TaskController {
     return taskService.createTask(
         request.getDescription(),
         request.getNotificationTime(),
-        request.getPriority(), // Adicionando prioridade
-        request.getStatus(), // Adicionando status
+        request.getPriority(),
+        request.getStatus(),
         username);
   }
 
@@ -40,8 +40,8 @@ public class TaskController {
 
   @PutMapping("/{id}")
   public Task updateTask(@PathVariable Long id, @RequestBody Map<String, String> updates) {
-      return taskService.updateTask(id, updates);
-  }  
+    return taskService.updateTask(id, updates);
+  }
 
   @DeleteMapping("/{id}")
   public String deleteTask(@PathVariable Long id) {

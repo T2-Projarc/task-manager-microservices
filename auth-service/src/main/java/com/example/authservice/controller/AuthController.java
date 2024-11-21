@@ -36,21 +36,18 @@ public class AuthController {
         userRepository.save(user);
         return "User registered successfully";
     }
-    
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
         try {
             authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-            );
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
             String token = jwtUtil.generateToken(request.getUsername());
             return new AuthResponse(token);
         } catch (Exception e) {
-            e.printStackTrace(); // This should log the exception details
+            e.printStackTrace();
             throw new RuntimeException("Login failed: " + e.getMessage());
         }
     }
-    
 
 }

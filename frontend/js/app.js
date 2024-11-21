@@ -1,35 +1,30 @@
-// URLs base dos serviços
-const taskServiceUrl = "http://localhost:8081/tasks";
-const notificationServiceUrl = "http://localhost:8082/notifications";
+import { getToken, setToken, removeToken } from "./authUtils.js";
+
+const taskServiceUrl = "http://localhost:8082/tasks";
+const notificationServiceUrl = "http://localhost:8081/notifications";
 const authServiceUrl = "http://localhost:8080/auth";
 
-let token = null;
 
 // Função para registrar um novo usuário
-async function register() {
-    const username = document.getElementById("registerUsername").value;
-    const password = document.getElementById("registerPassword").value;
-
+window.register = async function register() {
     const registerData = {
-        username,
-        password
+        username: document.getElementById("registerUsername").value,
+        password: document.getElementById("registerPassword").value,
     };
+
+    console.log("Dados de registro:", registerData);
 
     try {
         const response = await fetch(`${authServiceUrl}/register`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(registerData)
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(registerData),
         });
+
+        console.log("Resposta do backend:", response);
 
         if (response.ok) {
             showMessage("Registro bem-sucedido! Por favor, faça login.", "success");
-            // Limpar o formulário de registro
-            document.getElementById("registerUsername").value = "";
-            document.getElementById("registerPassword").value = "";
-            // Alternar para a seção de login
             toggleSections();
         } else {
             const errorText = await response.text();
@@ -37,45 +32,30 @@ async function register() {
         }
     } catch (error) {
         console.error("Erro durante o registro:", error);
-        showMessage("Ocorreu um erro durante o registro.", "error");
+        showMessage("Erro durante o registro.", "error");
     }
-}
+};
 
 // Função para login
-async function login() {
-    const username = document.getElementById("loginUsername").value;
-    const password = document.getElementById("loginPassword").value;
-
+window.login = async function login() {
     const loginData = {
-        username,
-        password
+        username: document.getElementById("loginUsername").value,
+        password: document.getElementById("loginPassword").value,
     };
 
     try {
         const response = await fetch(`${authServiceUrl}/login`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(loginData)
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(loginData),
         });
 
         if (response.ok) {
             const data = await response.json();
-            token = data.token;
-            // Armazenar token e nome de usuário no localStorage
-            localStorage.setItem("token", token);
-            localStorage.setItem("username", username);
+            setToken(data.token);
+            localStorage.setItem("username", loginData.username);
 
-            // Atualizar interface
-            document.getElementById("usernameDisplay").innerText = username;
             showLoggedInSection();
-
-            // Limpar o formulário de login
-            document.getElementById("loginUsername").value = "";
-            document.getElementById("loginPassword").value = "";
-
-            // Buscar dados iniciais
             getAllTasks();
             getNotifications();
         } else {
@@ -84,14 +64,13 @@ async function login() {
         }
     } catch (error) {
         console.error("Erro durante o login:", error);
-        showMessage("Ocorreu um erro durante o login.", "error");
+        showMessage("Erro durante o login.", "error");
     }
 }
 
 // Função para logout
-function logout() {
-    token = null;
-    localStorage.removeItem("token");
+window.logout = function logout() {
+    removeToken();
     localStorage.removeItem("username");
     showLoggedOutSection();
 }
@@ -119,13 +98,12 @@ function showLoggedOutSection() {
 }
 
 // Função para criar uma nova tarefa
-async function createTask() {
+window.createTask = async function createTask() {
     const description = document.getElementById("description").value;
     let notificationTime = document.getElementById("notificationTime").value;
     const priority = document.getElementById("priority").value;
     const status = document.getElementById("status").value;
 
-    // Adicionar segundos se não estiverem presentes
     if (notificationTime.length === 16) {
         notificationTime += ":00";
     }
@@ -142,22 +120,21 @@ async function createTask() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + getToken()
             },
             body: JSON.stringify(taskData)
         });
 
         if (response.ok) {
             showMessage("Tarefa criada com sucesso!", "success");
-            // Limpar os campos após a criação da tarefa
             document.getElementById("description").value = "";
             document.getElementById("notificationTime").value = "";
-            document.getElementById("priority").value = "MEDIUM"; // Valor padrão
-            document.getElementById("status").value = "PENDING"; // Valor padrão
-            getAllTasks(); // Atualizar a lista de tarefas
+            document.getElementById("priority").value = "MEDIUM";
+            document.getElementById("status").value = "PENDING";
+            getAllTasks();
         } else {
             const errorText = await response.text();
-            showMessage("Falha ao criar tarefa: " + errorText, "error");
+            showMessage("Erro ao criar tarefa: " + errorText, "error");
         }
     } catch (error) {
         console.error("Erro ao criar tarefa:", error);
@@ -167,17 +144,17 @@ async function createTask() {
 
 
 // Função para obter todas as tarefas do usuário autenticado
-async function getAllTasks() {
+window.getAllTasks = async function getAllTasks() {
     try {
         const response = await fetch(`${taskServiceUrl}/all`, {
             headers: {
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + getToken()
             }
         });
         if (response.ok) {
             const tasks = await response.json();
             const tasksList = document.getElementById("tasksList");
-            tasksList.innerHTML = ""; // Limpar a lista
+            tasksList.innerHTML = "";
 
             if (tasks.length === 0) {
                 tasksList.innerHTML = "<p>Você ainda não tem tarefas.</p>";
@@ -211,7 +188,7 @@ async function getAllTasks() {
 }
 
 // Função edição da tarefa
-async function editTask(taskId) {
+window.editTask = async function editTask(taskId) {
     const description = prompt("Nova descrição:");
     const priority = prompt("Nova prioridade (Alta, Média, Baixa):");
     const status = prompt("Novo status (Pendente/ Em Andamento/ Concluída):");
@@ -227,14 +204,14 @@ async function editTask(taskId) {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + getToken()
             },
             body: JSON.stringify(taskData)
         });
 
         if (response.ok) {
             showMessage("Tarefa editada com sucesso!", "success");
-            getAllTasks(); // Atualiza a lista de tarefas
+            getAllTasks();
         } else {
             const errorText = await response.text();
             showMessage("Erro ao editar tarefa: " + errorText, "error");
@@ -246,18 +223,18 @@ async function editTask(taskId) {
 }
 
 // Função para remover uma tarefa pelo ID
-async function deleteTask(taskId) {
+window.deleteTask = async function deleteTask(taskId) {
     try {
         const response = await fetch(`${taskServiceUrl}/${taskId}`, {
             method: "DELETE",
             headers: {
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + getToken()
             }
         });
 
         if (response.ok) {
             showMessage("Tarefa excluída com sucesso!", "success");
-            getAllTasks(); // Atualiza a lista de tarefas
+            getAllTasks();
         } else {
             const errorText = await response.text();
             showMessage("Erro ao excluir tarefa: " + errorText, "error");
@@ -273,13 +250,13 @@ async function getNotifications() {
     try {
         const response = await fetch(`${notificationServiceUrl}/all`, {
             headers: {
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + getToken()
             }
         });
         if (response.ok) {
             const notifications = await response.json();
             const notificationsList = document.getElementById("notificationsList");
-            notificationsList.innerHTML = ""; // Limpar a lista
+            notificationsList.innerHTML = "";
 
             if (notifications.length === 0) {
                 notificationsList.innerHTML = "<p>Você ainda não tem notificações.</p>";
@@ -303,15 +280,13 @@ async function getNotifications() {
     }
 }
 
-async function editField(taskId, field) {
-    // Solicitar o novo valor para o campo
+window.editField = async function editField(taskId, field) {
     let newValue = prompt(`Digite o novo valor para ${field}:`);
     if (!newValue) {
         showMessage(`O campo ${field} não pode estar vazio.`, "error");
         return;
     }
 
-    // Criar o payload com apenas o campo atualizado
     const taskData = { [field]: newValue };
 
     try {
@@ -319,14 +294,14 @@ async function editField(taskId, field) {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + getToken()
             },
             body: JSON.stringify(taskData)
         });
 
         if (response.ok) {
             showMessage(`Tarefa atualizada com sucesso!`, "success");
-            await getAllTasks(); // Atualizar a lista de tarefas
+            await getAllTasks();
         } else {
             const errorText = await response.text();
             showMessage(`Erro ao atualizar ${field}: ${errorText}`, "error");
@@ -344,25 +319,22 @@ function showMessage(message, type) {
     msgDiv.classList.add("message", type);
     msgDiv.innerText = message;
 
-    // Adicionar a mensagem no topo do conteúdo
     const contentDiv = document.querySelector(".content");
     contentDiv.insertBefore(msgDiv, contentDiv.firstChild);
 
-    // Remover a mensagem após alguns segundos
     setTimeout(() => {
         msgDiv.remove();
     }, 5000);
 }
 
-// Ao carregar a página, verificar se o usuário já está logado
-window.onload = function () {
-    token = localStorage.getItem("token");
+window.onload = async function () {
+    const token = getToken(); // Use getToken para recuperar o token
     const username = localStorage.getItem("username");
     if (token && username) {
         document.getElementById("usernameDisplay").innerText = username;
         showLoggedInSection();
-        getAllTasks();
-        getNotifications();
+        await getAllTasks(); // Aguarde as funções assíncronas
+        await getNotifications();
     } else {
         showLoggedOutSection();
     }

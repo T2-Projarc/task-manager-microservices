@@ -20,23 +20,27 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableWebSecurity
 public class SecurityConfig {
     @Autowired
-    private UserDetailsServiceImpl userDetailsService; // Use your custom implementation
+    private UserDetailsServiceImpl userDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(
+                        request -> new org.springframework.web.cors.CorsConfiguration().applyPermitDefaultValues()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/error/**").permitAll()
                         .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
                 .httpBasic(httpBasic -> httpBasic.disable())
-                .authenticationProvider(authenticationProvider()); // Add this line
+                .authenticationProvider(authenticationProvider());
 
         return http.build();
     }

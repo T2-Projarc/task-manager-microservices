@@ -11,12 +11,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users") // Renomeia a tabela para evitar conflitos
+@Table(name = "users")
 public class User {
 
     @Id

@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
   List<Task> findByNotifiedFalseAndNotificationTimeAfter(LocalDateTime time);
-  
-  // Novo método para buscar tarefas por username
+
   List<Task> findByUsername(String username);
 }

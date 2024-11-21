@@ -13,11 +13,10 @@ public class Notification {
   private Long id;
 
   private String message;
-  private String type; // EX: INFO, WARNING, ERROR
+  private String type;
   private boolean read;
 
-  private String username; // Novo campo para associar ao usuário
-
+  private String username;
 
   public String getUsername() {
     return username;
@@ -27,7 +26,6 @@ public class Notification {
     this.username = username;
   }
 
-  
   public Long getId() {
     return id;
   }

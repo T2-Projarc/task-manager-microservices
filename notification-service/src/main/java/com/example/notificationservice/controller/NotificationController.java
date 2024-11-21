@@ -34,14 +34,10 @@ public class NotificationController {
   }
 }
 
-// Classe auxiliar para receber os dados da notificação
 class NotificationRequest {
   private String message;
   private String type;
   private String username;
-
-  // Getters e Setters
-  // ...
 
   public String getMessage() {
     return message;

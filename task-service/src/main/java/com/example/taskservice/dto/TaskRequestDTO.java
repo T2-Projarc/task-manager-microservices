@@ -5,10 +5,9 @@ import java.time.LocalDateTime;
 public class TaskRequestDTO {
     private String description;
     private LocalDateTime notificationTime;
-    private String priority; 
-    private String status;   
+    private String priority;
+    private String status;
 
-    // Getters e Setters
     public String getDescription() {
         return description;
     }

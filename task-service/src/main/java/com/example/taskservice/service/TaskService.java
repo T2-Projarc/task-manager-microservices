@@ -5,7 +5,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.taskservice.dto.TaskRequestDTO;
 import com.example.taskservice.entity.Task;
 import com.example.taskservice.repository.TaskRepository;
 import io.jsonwebtoken.Claims;
@@ -27,7 +26,6 @@ public class TaskService {
   private final RestTemplate restTemplate = new RestTemplate();
   private final String notificationServiceUrl = "http://localhost:8082/notifications/internal";
 
-  // Sua chave secreta (deve ser a mesma usada no auth-service)
   private static final String SECRET_KEY = "wK8gH3Dh0JUZK+GkUP0rP+lPSYwSLJJxQlX6DYwIurY=";
   private final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
 
@@ -36,8 +34,8 @@ public class TaskService {
     Task task = new Task();
     task.setDescription(description);
     task.setNotificationTime(notificationTime);
-    task.setPriority(priority); // Definindo prioridade
-    task.setStatus(status); // Definindo status
+    task.setPriority(priority);
+    task.setStatus(status);
     task.setUsername(username);
     return taskRepository.save(task);
   }
@@ -46,7 +44,6 @@ public class TaskService {
     Task task = taskRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Task not found!"));
 
-    // Atualiza apenas os campos enviados no payload
     updates.forEach((key, value) -> {
       switch (key) {
         case "description":
@@ -67,7 +64,6 @@ public class TaskService {
   }
 
   public void deleteTask(Long id) {
-    // Verifica se a tarefa existe antes de tentar excluir
     if (!taskRepository.existsById(id)) {
       throw new RuntimeException("Task not found!");
     }
@@ -116,9 +112,9 @@ public class TaskService {
       if (minutesUntilTask <= 0 && !task.isNotifiedOnTime()) {
         sendNotification(task, "Lembrete: Sua tarefa está no horário!");
         task.setNotifiedOnTime(true);
-        task.setNotified(true); // Marca a tarefa como completamente notificada
+        task.setNotified(true);
       }
-      taskRepository.save(task); // Salva as atualizações de notificação
+      taskRepository.save(task);
     }
   }
 
@@ -131,14 +127,10 @@ public class TaskService {
     restTemplate.postForObject(notificationServiceUrl, notificationRequest, String.class);
   }
 
-  // Classe auxiliar para enviar a notificação
   class NotificationRequest {
     private String message;
     private String type;
     private String username;
-
-    // Getters e Setters
-    // ...
 
     public String getMessage() {
       return message;

@@ -1,4 +1,3 @@
-/* Estilos Gerais */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -8,7 +7,6 @@
 
 body {
     background-color: #e9dffb;
-    /* Fundo principal */
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -20,7 +18,6 @@ body {
     max-width: 800px;
     width: 100%;
     background-color: #ffffff;
-    /* Fundo das seções */
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -28,7 +25,6 @@ body {
 
 header {
     background-color: #bc98f3;
-    /* Cabeçalho */
     color: white;
     padding: 20px;
     text-align: center;
@@ -85,7 +81,6 @@ input[type="datetime-local"] {
     padding: 10px;
     font-size: 14px;
     border: 1px solid #bc98f3;
-    /* Contorno dos inputs */
     border-radius: 5px;
     outline: none;
     transition: border-color 0.3s, box-shadow 0.3s;
@@ -95,7 +90,6 @@ input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="datetime-local"]:focus {
     border-color: #aadeff;
-    /* Contorno ao focar */
     box-shadow: 0 0 5px rgba(170, 222, 255, 0.5);
 }
 
@@ -105,7 +99,6 @@ button {
     font-size: 16px;
     color: white;
     background-color: #bc98f3;
-    /* Botões principais */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -120,13 +113,11 @@ button {
 
 button:hover {
     background-color: #aadeff;
-    /* Botões ao passar o mouse */
     transform: scale(1.02);
 }
 
 .refresh-button {
     background-color: #d1eaf9;
-    /* Botões secundários */
     color: #333;
     margin-top: 15px;
     width: auto;
@@ -137,7 +128,6 @@ button:hover {
 
 .refresh-button:hover {
     background-color: #aadeff;
-    /* Hover em botões secundários */
 }
 
 .section {
@@ -147,11 +137,9 @@ button:hover {
 .task-item,
 .notification-item {
     background-color: #ffffff;
-    /* Fundo das tarefas e notificações */
     padding: 15px;
     border-radius: 8px;
     border: 1px solid #d3bcf6;
-    /* Bordas suaves */
     margin-top: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -167,7 +155,6 @@ button:hover {
     display: none;
 }
 
-/* Estilo para mensagens de erro e sucesso */
 .message {
     margin-top: 15px;
     padding: 10px;
@@ -177,7 +164,6 @@ button:hover {
 
 .message.success {
     background-color: #d1eaf9;
-    /* Mensagem de sucesso */
     color: #256029;
     border: 1px solid #aadeff;
 }
@@ -189,7 +175,6 @@ button:hover {
     border: 1px solid #f5c6cb;
 }
 
-/* Estilo para os campos de seleção */
 select {
     padding: 10px;
     font-size: 14px;
