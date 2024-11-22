@@ -1,3 +1,5 @@
-C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\gateway-service\src\main\java\com\example\gatewayservice\config\OpenApiConfig.java
-C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\gateway-service\src\main\java\com\example\gatewayservice\config\WebConfig.java
-C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\gateway-service\src\main\java\com\example\gatewayservice\GatewayServiceApplication.java
+C:\Users\maumis\Documents\PUCRS\task-manager-microservices\gateway-service\src\main\java\com\example\gatewayservice\config\CorsConfig.java
+C:\Users\maumis\Documents\PUCRS\task-manager-microservices\gateway-service\src\main\java\com\example\gatewayservice\config\GatewayConfig.java
+C:\Users\maumis\Documents\PUCRS\task-manager-microservices\gateway-service\src\main\java\com\example\gatewayservice\config\JwtAuthenticationFilter.java
+C:\Users\maumis\Documents\PUCRS\task-manager-microservices\gateway-service\src\main\java\com\example\gatewayservice\config\OpenApiConfig.java
+C:\Users\maumis\Documents\PUCRS\task-manager-microservices\gateway-service\src\main\java\com\example\gatewayservice\GatewayServiceApplication.java

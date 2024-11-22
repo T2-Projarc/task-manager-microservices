@@ -24,7 +24,7 @@ public class TaskService {
   private TaskRepository taskRepository;
 
   private final RestTemplate restTemplate = new RestTemplate();
-  private final String notificationServiceUrl = "http://localhost:8082/notifications/internal";
+  private final String notificationServiceUrl = "http://localhost:8081/notifications/internal";
 
   private static final String SECRET_KEY = "wK8gH3Dh0JUZK+GkUP0rP+lPSYwSLJJxQlX6DYwIurY=";
   private final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));

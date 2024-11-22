@@ -246,7 +246,7 @@ window.deleteTask = async function deleteTask(taskId) {
 }
 
 // Função para obter todas as notificações do usuário autenticado
-async function getNotifications() {
+window.getNotifications = async function getNotifications() {
     try {
         const response = await fetch(`${notificationServiceUrl}/all`, {
             headers: {

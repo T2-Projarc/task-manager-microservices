@@ -1,7 +1,8 @@
-C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\task-service\src\main\java\com\example\taskservice\config\OpenApiConfig.java
-C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\task-service\src\main\java\com\example\taskservice\config\WebConfig.java
-C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\task-service\src\main\java\com\example\taskservice\controller\TaskController.java
-C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\task-service\src\main\java\com\example\taskservice\entity\Task.java
-C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\task-service\src\main\java\com\example\taskservice\repository\TaskRepository.java
-C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\task-service\src\main\java\com\example\taskservice\service\TaskService.java
-C:\Users\lucas\OneDrive\Documentos\T2projarc\task-manager-microservices\task-service\src\main\java\com\example\taskservice\TaskServiceApplication.java
+C:\Users\maumis\Documents\PUCRS\task-manager-microservices\task-service\src\main\java\com\example\taskservice\config\OpenApiConfig.java
+C:\Users\maumis\Documents\PUCRS\task-manager-microservices\task-service\src\main\java\com\example\taskservice\config\WebConfig.java
+C:\Users\maumis\Documents\PUCRS\task-manager-microservices\task-service\src\main\java\com\example\taskservice\controller\TaskController.java
+C:\Users\maumis\Documents\PUCRS\task-manager-microservices\task-service\src\main\java\com\example\taskservice\dto\TaskRequestDTO.java
+C:\Users\maumis\Documents\PUCRS\task-manager-microservices\task-service\src\main\java\com\example\taskservice\entity\Task.java
+C:\Users\maumis\Documents\PUCRS\task-manager-microservices\task-service\src\main\java\com\example\taskservice\repository\TaskRepository.java
+C:\Users\maumis\Documents\PUCRS\task-manager-microservices\task-service\src\main\java\com\example\taskservice\service\TaskService.java
+C:\Users\maumis\Documents\PUCRS\task-manager-microservices\task-service\src\main\java\com\example\taskservice\TaskServiceApplication.java
